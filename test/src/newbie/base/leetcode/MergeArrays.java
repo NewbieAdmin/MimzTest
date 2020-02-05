@@ -33,23 +33,27 @@ public class MergeArrays {
     }
 
     public static void merge(int[] nums1, int m, int[] nums2, int n) {
-        int[] arr = new int[nums1.length];
+        int[] arr = nums1.clone();
         int index1=0,index2=0;
         for (int i = 0, length = arr.length; i < length; i++) {
-            if (nums1[index1] >= nums2[index2]) {
-                if (index1 <= m) {
-                    arr[i] = nums1[index1++];
+            // 两数组均为完全添加
+            if (index1 < m && index2 < n) {
+                if (arr[index1] <= nums2[index2]) {
+                    nums1[i] = arr[index1++];
+                } else {
+                    nums1[i] = nums2[index2++];
                 }
-            }else {
-                if (index2 < n){
-                    arr[i] = nums2[index2++];
-                }
-            }
-            if (index1 == m && index2 == n){
+            } else if (index1 < m && index2 >= n) {
+                // 数组2添加完成
+                nums1[i] = arr[index1++];
+            } else if (index1 >= m && index2 < n) {
+                // 数组1添加完成
+                nums1[i] = nums2[index2++];
+            } else {
                 break;
             }
         }
-        System.out.println(Arrays.toString(arr));
+        System.out.println(Arrays.toString(nums1));
 
     }
 
